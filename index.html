@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Steel Ball Run – Stream</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1a120c">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script>try{var t=localStorage.getItem("sbr-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Oswald:wght@400;600&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#efe3c8;--surface:#e2d1ab;--text:#2a1c12;--muted:#6b5238;--line:#b99d6a;--gold:#b8801a;--red:#a3281a;--hero:#1a120c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17100b;--surface:#251a12;--text:#f1e4c6;--muted:#a79071;--line:#4a3826;--gold:#e0a93a;--red:#d1412b}}
+:root[data-theme="dark"]{--bg:#17100b;--surface:#251a12;--text:#f1e4c6;--muted:#a79071;--line:#4a3826;--gold:#e0a93a;--red:#d1412b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "Libre Baskerville",Georgia,serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--hero)}
+h1,h2,h3{font-family:Rye,"Rockwell",Georgia,serif;font-weight:400;margin:0;line-height:1.1}
+.sans,button,nav a,.tag{font-family:Oswald,"Arial Narrow",Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:0;color:inherit;font-size:1rem}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:20px;padding:12px 4vw;background:var(--hero);color:#f1e4c6;border-bottom:2px solid #e0a93a}
+.logo{font-family:Rye,serif;font-size:1.25rem;color:#e0a93a;white-space:nowrap}
+.logo small{display:block;font:.6rem Oswald,sans-serif;letter-spacing:.2em;color:#d1412b}
+nav{display:flex;gap:18px;overflow-x:auto;margin-left:auto}
+nav a{font-size:.95rem;opacity:.8;white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent}
+nav a.on,nav a:hover{opacity:1;border-color:#d1412b}
+.hero{position:relative;min-height:78vh;background:var(--hero);color:#f1e4c6;display:flex;align-items:flex-end;overflow:hidden}
+.hero svg{position:absolute;inset:0;width:100%;height:100%}
+.hero .in{position:relative;padding:0 4vw 9vh;max-width:720px}
+.hero h1{font-size:clamp(2.4rem,8vw,5rem);color:#e0a93a;text-shadow:3px 3px 0 #7a1d12}
+.hero p{margin:14px 0 22px;max-width:52ch;opacity:.92}
+.tag{display:inline-block;border:1px solid currentColor;padding:1px 8px;font-size:.78rem;margin:0 6px 10px 0}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;font-family:Oswald,sans-serif;font-weight:600;border-radius:3px;margin:0 8px 8px 0}
+.b1{background:#e0a93a;color:#1a120c}.b2{background:rgba(241,228,198,.16);color:#f1e4c6;border:1px solid #e0a93a}
+.b1:hover{background:#f2bd52}.b2:hover{background:rgba(241,228,198,.28)}
+main{padding-bottom:40px}
+section{padding:30px 4vw 0}
+h2{font-size:1.5rem;margin-bottom:14px;color:var(--gold)}
+.row{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x proximity}
+.card{flex:0 0 min(260px,70vw);scroll-snap-align:start;background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-align:left;display:block}
+.card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.card{transition:transform .15s,border-color .15s}
+.th{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#f1e4c6;font:600 2.6rem Rye,serif;background:linear-gradient(160deg,hsl(var(--h) 55% 38%),hsl(calc(var(--h) - 25) 60% 14%))}
+.th:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 22%,rgba(255,220,140,.5) 0 8%,transparent 9%)}
+.th.ph:after{display:none}
+.player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.pg{position:absolute;left:0;bottom:0;height:4px;background:#d1412b;z-index:2}
+.cb{padding:10px 12px}.cb b{display:block;font-family:Oswald,sans-serif;font-weight:600}
+.cb span{font-size:.82rem;color:var(--muted)}
+.cw{position:relative;flex:0 0 min(260px,70vw);scroll-snap-align:start}
+.dots{position:absolute;top:8px;right:8px;z-index:3;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.62);color:#f1e4c6;font-size:1.3rem;line-height:1;display:flex;align-items:center;justify-content:center}
+.dots:hover{background:rgba(0,0,0,.85)}
+.menu{position:absolute;top:50px;right:8px;z-index:4;background:var(--surface);border:1px solid var(--line);border-radius:4px;box-shadow:0 6px 18px rgba(0,0,0,.45);min-width:190px}
+.menu[hidden]{display:none}
+.menu button{display:block;width:100%;text-align:left;padding:12px 16px;background:none;font-family:Oswald,sans-serif;color:var(--text)}
+.menu [data-rm]{color:var(--red)}
+.seen{position:absolute;right:6px;bottom:6px;z-index:2;background:rgba(0,0,0,.72);color:#f1e4c6;font:.72rem Oswald,sans-serif;padding:1px 8px;border-radius:3px}
+.tgl{flex:0 0 auto;background:none;color:#f1e4c6;font-size:1.15rem;line-height:1;padding:6px 10px;border:1px solid #4a3826;border-radius:3px}
+.tgl:hover{border-color:#e0a93a}
+.q{width:100%;padding:12px 14px;margin-bottom:14px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:3px;font:1rem "Libre Baskerville",Georgia,serif}
+.mk{background:var(--surface);color:var(--text);border:1px solid var(--line);margin-top:6px}
+.mk:hover{border-color:var(--gold)}
+.nx{position:absolute;inset:0;z-index:5;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 16px 64px;background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.72));pointer-events:none}
+.nx[hidden]{display:none}
+.nxc{pointer-events:auto;max-width:300px}
+.nxc small{display:block;font:.9rem Oswald,sans-serif}
+.nxc strong{display:block;margin:4px 0 10px;font:1.05rem Rye,Georgia,serif;color:#e0a93a;font-weight:400}
+.nxc button{padding:8px 14px;margin:0 8px 6px 0;border-radius:3px;font-family:Oswald,sans-serif;background:#e0a93a;color:#1a120c}
+.nxc button+button{background:rgba(241,228,198,.2);color:#f1e4c6}
+.menu button:hover{background:var(--bg)}
+.poster{flex:0 0 min(170px,44vw);text-align:center}
+.poster .th{aspect-ratio:3/4;font-size:2.8rem}
+.wrap{max-width:980px;margin:0 auto}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button{background:var(--surface);padding:8px 16px;border:1px solid var(--line);border-radius:3px;font-family:Oswald,sans-serif}
+.tabs button[aria-pressed=true]{background:var(--red);color:#fff;border-color:var(--red)}
+.ep{display:grid;grid-template-columns:38px 150px 1fr;gap:16px;align-items:center;padding:14px 8px;border-bottom:1px solid var(--line);cursor:pointer}
+.ep:hover{background:var(--surface)}
+.ep .n{font:1.6rem Rye,serif;color:var(--muted);text-align:center}
+.ep .th{font-size:1.3rem;border-radius:3px;overflow:hidden}
+.ep h3{font:600 1.05rem Oswald,sans-serif;display:flex;justify-content:space-between;gap:10px}
+.ep p{margin:4px 0 0;font-size:.88rem;color:var(--muted)}
+.meta{color:var(--muted);font-size:.9rem}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);padding:16px;border-left:4px solid var(--red);border-radius:3px}
+.box h3{font:600 1.1rem Oswald,sans-serif;margin-bottom:4px}.box p{margin:0;font-size:.9rem}
+.player{background:#000;color:#f1e4c6;position:relative;aspect-ratio:16/9;max-height:75vh;width:100%;overflow:hidden}
+.player svg{position:absolute;inset:0;width:100%;height:100%}
+.ctrl{position:absolute;left:0;right:0;bottom:0;padding:30px 18px 12px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.bar{height:6px;background:rgba(241,228,198,.3);border-radius:3px;cursor:pointer;margin-bottom:10px}
+.bar i{display:block;height:100%;background:#d1412b;border-radius:3px}
+.btns{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btns button{background:rgba(241,228,198,.15);padding:6px 14px;border-radius:3px;font-family:Oswald,sans-serif}
+.btns button:hover{background:rgba(241,228,198,.3)}
+.btns time{margin-left:auto;font:.9rem Oswald,sans-serif}
+.note{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.6);padding:3px 10px;font:.78rem Oswald,sans-serif;border-radius:3px}
+footer{padding:30px 4vw;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);margin-top:40px}
+@media(max-width:600px){.ep{grid-template-columns:100px 1fr}.ep .n{display:none}header{gap:10px}.logo small{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <a href="#inicio" class="logo">Steel Ball Run<small>STREAMING OFICIAL DA CORRIDA</small></a>
+  <nav id="nav">
+    <a href="#inicio" data-r="inicio">Início</a>
+    <a href="#anime" data-r="anime">O Anime</a>
+    <a href="#elenco" data-r="elenco">Personagens</a>
+    <a href="#lista" data-r="lista">Minha lista</a>
+    <a href="#busca" data-r="busca">Buscar</a>
+    <a href="#" id="inst" hidden>Instalar app</a>
+  </nav>
+  <button id="th" class="tgl" aria-label="Alternar tema claro e escuro"></button>
+</header>
+<main id="app"></main>
+<footer>Protótipo de fã inspirado em Steel Ball Run, de Hirohiko Araki. Catálogo, títulos e sinopses dos episódios são ilustrativos e não há vídeo real: o player é uma demonstração.</footer>
+
+<script>
+const EPS=[
+["STEEL BALL RUN","24","Em setembro de 1890, 3.852 jóqueis de todo o mundo se reuniram em San Diego para participar da Steel Ball Run, uma corrida transcontinental de cavalos até Nova York com um grande prêmio de 50 milhões de dólares."],
+["O Pedido do Xerife a Mountain Tim","24","Antes do início da segunda etapa, o xerife local nomeia o jóquei Mountain Tim como seu auxiliar para investigar os assassinatos de três participantes da corrida que ocorreram durante a etapa anterior."],
+["Os Bandidos Nascidos no Deserto","23","Após o encontro com Robinson, Gyro e Johnny decidiram descansar durante a noite. Uma figura misteriosa logo começa a se aproximar de seu acampamento em busca de ajuda."],
+["A Palma do Diabo","24","Presos na armadilha do Boomboom, uma força magnética ameaça separar Johnny, Gyro e Mountain Tim. Eles aprendem sobre 'Stands' e o corpo de Johnny reage."],
+["O Terrorista de um País Distante","24","Ao final da segunda fase, o terror se instaura quando um novo terrorista ataca o magistrado com um Zeppeli."],
+["O Destino de Gyro Zeppeli","23","Gyro e Johnny finalmente encontram o cavalo zumbi que pode ser usado para curar a perna de Gyro. A origem misteriosa de Gyro Zeppeli e o motivo de sua participação na corrida são revelados. Nos dias atuais, uma nova surpresa aguarda a dupla."],
+["Presa","24","Gyro e Johnny são atacados por um inimigo misterioso que não pode ser visto e que parece responder diretamente ao Presidente dos Estados Unidos."],
+["O Preço da Vitória","24","Johnny precisa decidir até onde está disposto a ir para voltar a caminhar."],
+["Ordem de Washington","23","Agentes do governo entram na corrida com um objetivo que não é o prêmio."],
+["Tempestade na Pradaria","24","Uma tempestade obriga os corredores a escolher entre atalho e segurança."],
+["Corpo Sagrado","24","O verdadeiro motivo da corrida começa a ser revelado aos poucos."],
+["A Última Curva","25","A reta final em Nova York decide quem leva o título e quem paga com o futuro."]];
+const STAGES=["Costa do Pacífico","Deserto Vermelho","Montanhas Rochosas","Planícies até Nova York"];
+const CAST=[
+["Johnny Joestar","Ex-jóquei prodígio","J",12],["Gyro Zeppeli","Cavaleiro italiano","G",95],["Diego Brando","Jóquei rival","D",205],
+["Lucy Steel","Organizadora da prova","L",330],["Funny Valentine","Presidente dos EUA","F",270],["Hot Pants","Agente em campo","H",155]];
+
+const VIDEOS={1:"https://www.dropbox.com/scl/fi/qhyigwvl1fqzb9nxmbbwi/01sd.mp4?rlkey=gt7r5710ogrx29qk70jhrpz0i&st=2ipdeh7p&dl=0",2:"https://www.dropbox.com/scl/fi/oslyf8v54sw10dqt351m8/sbr2.mp4?rlkey=t93xahxpu7otq2e90suovj6pb&st=s82oipd1&dl=0",3:"https://www.dropbox.com/scl/fi/qhfudc4eeehelp1cx76g9/sbr3.mp4?rlkey=56g8ioryfamq797e3n8nl83vb&st=gob7btxx&dl=0",4:"",5:"",6:"https://www.dropbox.com/scl/fi/u56gyynuzebd7967kbouq/lv_0_20261029213912.mp4?rlkey=hsqttgrwluba0811ow0hp5jv0&st=3pfay5z5&dl=0",7:"https://www.dropbox.com/scl/fi/ioyu8ena3g7bsorolw0f0/sbr7.mp4?rlkey=0yva3lo8rjub9ieh2xd46emxy&st=46vadqim&dl=0",8:"",9:"",10:"",11:"",12:""};
+const FOTOS={1:"https://drive.google.com/file/d/1qzXUgxSwKTJD1ImyiaXVnRXs7aMTRL9l/view?usp=drivesdk",2:"https://drive.google.com/file/d/1zOnBxqwaM3_bkb6xLFXg1547rHvu-bhJ/view?usp=drivesdk",3:"https://drive.google.com/file/d/18okurrPyVwwv_87kKVmk3p6H02iY7zos/view?usp=drivesdk",4:"https://drive.google.com/file/d/1CYXYcgCwXslIJL4vrEP-0uLTlck1WpEq/view?usp=drivesdk",5:"https://drive.google.com/file/d/1VToFAIs7i7bN34VRUBf8KRTsKRQb6w-v/view?usp=drivesdk",6:"https://drive.google.com/file/d/1q3uSscgo-XTeG2cHg4BgSarevr3S0mDV/view?usp=drivesdk",7:"https://drive.google.com/file/d/1CZRAiBh1Miib_Xws2wcnmXj3vJEFOuU_/view?usp=drivesdk",8:"",9:"",10:"",11:"",12:""};
+// ===== fim da área de links =====
+const dbx=u=>{try{const x=new URL(u);if(/(^|\.)dropbox\.com$/.test(x.hostname)){x.searchParams.delete("dl");x.searchParams.set("raw","1")}return x.toString()}catch(e){return u}};
+const img=u=>{if(!u)return"";u=dbx(u.trim());const m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)||(/drive\.google/.test(u)&&u.match(/[?&]id=([\w-]+)/));return m?`https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`:u};
+const frame=s=>`<iframe src="${s}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+const embed=u=>{u=dbx(u.trim());let m;if(m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/))return frame(`https://drive.google.com/file/d/${m[1]}/preview`);if(m=u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/))return frame(`https://www.youtube.com/embed/${m[1]}`);return `<video src="${u}"${Date.now()<autoUntil?" autoplay":""} controls playsinline preload="auto"></video>`};
+const $=s=>document.querySelector(s),app=$("#app");
+let S={list:[1],prog:{},last:{}};
+try{const x=JSON.parse(localStorage.getItem("sbr")||"null");if(x)S=x}catch(e){}S.last=S.last||{};S.prog=S.prog||{};
+const save=()=>{try{localStorage.setItem("sbr",JSON.stringify(S))}catch(e){}};
+const resume=()=>{const l=Object.keys(S.prog).map(Number).filter(k=>EPS[k-1]&&S.prog[k]>.01).sort((a,b)=>(S.last[b]||0)-(S.last[a]||0));
+  if(!l.length)return[1,"▶ Assistir ep. 1"];const k=l[0];
+  if(S.prog[k]<.97)return[k,`▶ Continuar ep. ${k}`];
+  return k<12?[k+1,`▶ Assistir ep. ${k+1}`]:[1,"▶ Assistir de novo"]};
+const hue=i=>(i*37+10)%360;
+const thumb=(i,pg)=>{const f=img(FOTOS[i]);return `<div class="th${f?" ph":""}" style="--h:${hue(i)}${f?`;background:center/cover url('${f}')`:""}">${f?"":i}${pg>=.97?`<span class="seen">✓ Assistido</span>`:pg?`<i class="pg" style="width:${pg*100}%"></i>`:""}</div>`};
+const epCard=i=>{const e=EPS[i-1];return `<a class="card" href="#assistir-${i}">${thumb(i,S.prog[i])}<div class="cb"><b>${e[0]}</b><span>Episódio ${i} · ${e[1]} min</span></div></a>`};
+const scene=`<svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a1410"/><stop offset=".55" stop-color="#b5482a"/><stop offset="1" stop-color="#e9a64a"/></linearGradient></defs><rect width="800" height="450" fill="url(#sk)"/><circle cx="600" cy="190" r="70" fill="#ffd27a" opacity=".9"/><g fill="none" stroke="#ffd27a" stroke-width="2" opacity=".5"><rect x="470" y="90" width="260" height="160"/><path d="M470 250 A160 160 0 0 1 630 90 A99 99 0 0 1 730 189 A61 61 0 0 1 669 250 A38 38 0 0 1 631 212 A23 23 0 0 1 654 189"/></g><path d="M0 330 Q150 270 300 320 T620 310 T800 300 V450 H0Z" fill="#5a2415"/><path d="M0 380 Q200 340 400 380 T800 360 V450 H0Z" fill="#2a120a"/><g fill="#12090a"><path d="M120 330v-70h14v30h24v-30h14v70h-14v-24h-24v24z" opacity=".0"/><path d="M180 345 l10-30 20-8 14-26 12 6-8 22 24 6 6 18-16 2-6 18h-10l2-16-24 2-6 18h-10z"/><circle cx="238" cy="282" r="9"/><circle cx="262" cy="347" r="14" fill="#e0a93a" opacity=".85"/></g></svg>`;
+
+function home(){
+  const c=EPS.map((_,i)=>i+1);
+  app.innerHTML=`<div class="hero">${scene}<div class="in">
+    <span class="tag">Aventura</span><span class="tag">Western</span><span class="tag">16+</span>
+    <h1>Steel Ball Run</h1>
+    <p>Em 1890, a maior corrida de cavalos do mundo cruza os Estados Unidos de costa a costa. Johnny Joestar, paralítico, entra na prova atrás de um milagre.</p>
+    <a class="btn b1" href="#assistir-${resume()[0]}">${resume()[1]}</a><a class="btn b2" href="#anime">Mais informações</a></div></div>
+  ${(()=>{const l=Object.keys(S.prog).map(Number).filter(k=>EPS[k-1]&&S.prog[k]>.01&&S.prog[k]<.97).sort((a,b)=>(S.last[b]||0)-(S.last[a]||0));return l.length?`<section><h2>Continue assistindo</h2><div class="row">${l.map(k=>`<div class="cw">${epCard(k)}<button class="dots" aria-label="Opções do episódio ${k}">⋮</button><div class="menu" hidden><button data-mk="${k}">Marcar como assistido</button><button data-rm="${k}">Remover do histórico</button></div></div>`).join("")}</div></section>`:""})()}
+  <section><h2>Etapas da corrida</h2><div class="row">${STAGES.map((s,i)=>`<a class="card" href="#anime"><div class="th" style="--h:${hue(i*3+1)}">${i+1}</div><div class="cb"><b>Etapa ${i+1}</b><span>${s}</span></div></a>`).join("")}</div></section>
+  <section><h2>Todos os episódios</h2><div class="row">${c.map(epCard).join("")}</div></section>
+  <section><h2>Os corredores</h2><div class="row">${CAST.map(castCard).join("")}</div></section>`;
+  app.querySelectorAll(".dots").forEach(b=>b.onclick=ev=>{ev.stopPropagation();const m=b.nextElementSibling,was=m.hidden;closeMenus();m.hidden=!was});
+  app.querySelectorAll("[data-mk]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();S.prog[b.dataset.mk]=1;S.last[b.dataset.mk]=Date.now();save();home()});
+  app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();delete S.prog[b.dataset.rm];delete S.last[b.dataset.rm];save();home()});
+}
+const closeMenus=()=>document.querySelectorAll(".menu").forEach(m=>m.hidden=true);
+document.addEventListener("click",closeMenus);
+const castCard=p=>`<div class="card poster"><div class="th" style="--h:${p[3]}">${p[2]}</div><div class="cb"><b>${p[0]}</b><span>${p[1]}</span></div></div>`;
+
+let tab=1;
+function anime(){
+  app.innerHTML=`<div class="hero" style="min-height:52vh">${scene}<div class="in"><span class="tag">2026</span><span class="tag">12 episódios</span><span class="tag">Legendado</span>
+    <h1>Steel Ball Run</h1><p>Uma corrida de 6.000 km, um prêmio de 50 milhões de dólares e uma esfera de aço que gira com a força de uma lenda.</p>
+    <a class="btn b1" href="#assistir-${resume()[0]}">${resume()[1]}</a><button class="btn b2" id="ml"></button></div></div>
+  <section><div class="wrap"><div class="tabs" id="tabs"></div><div id="eps"></div></div></section>
+  <section><div class="wrap"><h2>Sobre a série</h2><div class="grid2">
+    <div class="box"><h3>Sinopse</h3><p>Johnny Joestar perdeu o movimento das pernas. Ao conhecer Gyro Zeppeli na largada da corrida, vê uma chance de voltar a andar.</p></div>
+    <div class="box"><h3>Gêneros</h3><p>Aventura, ação, western, sobrenatural.</p></div>
+    <div class="box"><h3>Áudio e legenda</h3><p>Japonês com legendas em português. Dublagem em breve.</p></div></div></div></section>`;
+  const ml=$("#ml"),upd=()=>ml.textContent=S.list.includes(1)?"✓ Na minha lista":"+ Minha lista";
+  upd();ml.onclick=()=>{S.list=S.list.includes(1)?[]:[1];save();upd()};
+  const tb=$("#tabs");
+  const draw=()=>{
+    tb.innerHTML=STAGES.map((s,i)=>`<button aria-pressed="${tab==i+1}" data-t="${i+1}">Etapa ${i+1}</button>`).join("");
+    tb.querySelectorAll("button").forEach(b=>b.onclick=()=>{tab=+b.dataset.t;draw()});
+    const a=(tab-1)*3;
+    $("#eps").innerHTML=`<p class="meta">${STAGES[tab-1]}</p>`+EPS.slice(a,a+3).map((e,k)=>{const i=a+k+1;return `<a class="ep" href="#assistir-${i}"><div class="n">${i}</div>${thumb(i,S.prog[i])}<div><h3>${e[0]}<span class="meta">${e[1]} min</span></h3><p>${e[2]}</p></div></a>`}).join("");
+  };draw();
+}
+function elenco(){app.innerHTML=`<section><h2>Personagens</h2><div class="grid2">${CAST.map(p=>`<div class="box"><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join("")}</div></section>`}
+function lista(){app.innerHTML=`<section><h2>Minha lista</h2>`+(S.list.length?`<div class="row"><a class="card" href="#anime"><div class="th" style="--h:12">SBR</div><div class="cb"><b>Steel Ball Run</b><span>12 episódios</span></div></a></div>`:`<p class="meta">Sua lista está vazia. Abra o anime e toque em “Minha lista”.</p><a class="btn b1" href="#anime">Ver o anime</a>`)+`</section>`}
+
+let timer,autoUntil=0;
+function watch(i){
+  const e=EPS[i-1],dur=+e[1]*60;let t=Math.floor((S.prog[i]||0)*dur),play=false;
+  const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+  app.innerHTML=`<div class="player">${scene}<span class="note">Demonstração: sem vídeo real</span><div class="ctrl"><div class="bar" id="bar"><i id="fill"></i></div><div class="btns">
+    <button id="pp">▶ Reproduzir</button><button id="bk">−10 s</button><button id="fw">+10 s</button>${i<12?`<a href="#assistir-${i+1}"><button>Próximo ▸</button></a>`:""}<time id="tm"></time></div></div></div>
+  <section><div class="wrap"><h2>${e[0]}</h2><p class="meta">Steel Ball Run · Etapa ${Math.ceil(i/3)} · Episódio ${i} · ${e[1]} min</p><p>${e[2]}</p><button class="btn mk" id="mk"></button>
+  <h2 style="margin-top:28px">Mais episódios</h2><div class="row">${EPS.map((_,k)=>k+1).filter(k=>k!=i).map(epCard).join("")}</div></div></section>`;
+  const draw=()=>{$("#fill").style.width=t/dur*100+"%";$("#tm").textContent=fmt(t)+" / "+fmt(dur);S.prog[i]=t/dur;S.last[i]=Date.now();save()};
+  const stop=()=>{clearInterval(timer);play=false;$("#pp").textContent="▶ Reproduzir"};
+  $("#pp").onclick=()=>{if(play)return stop();play=true;$("#pp").textContent="❚❚ Pausar";timer=setInterval(()=>{t=Math.min(dur,t+5);draw();if(t>=dur)stop()},1000)};
+  $("#bk").onclick=()=>{t=Math.max(0,t-10);draw()};$("#fw").onclick=()=>{t=Math.min(dur,t+10);draw()};
+  $("#bar").onclick=ev=>{const r=ev.currentTarget.getBoundingClientRect();t=Math.floor((ev.clientX-r.left)/r.width*dur);draw()};
+  if(VIDEOS[i]){$(".player").innerHTML=embed(VIDEOS[i]);const v=$(".player video");if(v){const p=S.prog[i]||0;v.addEventListener("loadedmetadata",()=>{if(p>.01&&p<.97)v.currentTime=p*v.duration});let lt=0;v.addEventListener("timeupdate",()=>{if(v.duration&&Date.now()-lt>3000){lt=Date.now();S.prog[i]=v.currentTime/v.duration;S.last[i]=Date.now();save()}});v.addEventListener("ended",()=>{S.prog[i]=1;save()});
+    let cancel=false;const go=()=>{autoUntil=Date.now()+4000;location.hash="assistir-"+(i+1)};
+    if(i<12&&VIDEOS[i+1]){const ov=document.createElement("div");ov.className="nx";ov.hidden=true;
+      ov.innerHTML=`<div class="nxc"><small>Próximo episódio em <b id="cd"></b> s</small><strong>Ep. ${i+1} · ${EPS[i][0]}</strong><button id="nn">▶ Assistir agora</button><button id="nc">✕ Cancelar</button></div>`;
+      $(".player").appendChild(ov);
+      ov.querySelector("#nn").onclick=go;ov.querySelector("#nc").onclick=()=>{cancel=true;ov.hidden=true};
+      v.addEventListener("timeupdate",()=>{const r=v.duration-v.currentTime;ov.hidden=cancel||!(r<=10&&r>0);if(!ov.hidden)ov.querySelector("#cd").textContent=Math.ceil(r)});
+      v.addEventListener("ended",()=>{if(!cancel)go()})}
+  }}else draw();
+  const mk=$("#mk"),um=()=>mk.textContent=S.prog[i]>=.97?"↺ Desmarcar como assistido":"✓ Marcar como assistido";um();
+  mk.onclick=()=>{if(S.prog[i]>=.97)delete S.prog[i];else S.prog[i]=1;S.last[i]=Date.now();save();um()};
+}
+function route(){
+  clearInterval(timer);
+  const h=location.hash.slice(1)||"inicio",m=h.match(/^assistir-(\d+)$/);
+  if(m&&EPS[m[1]-1])watch(+m[1]);else({anime,elenco,lista,busca}[h]||home)();
+  document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.r===(m?"anime":h)||(!m&&h==="inicio"&&a.dataset.r==="inicio")));
+  scrollTo(0,0);
+}
+function busca(){
+  app.innerHTML=`<section><div class="wrap"><h2>Buscar</h2><input id="q" class="q" type="search" placeholder="Nome do episódio ou palavra da sinopse" autocomplete="off"><div id="res"></div></div></section>`;
+  const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase(),q=$("#q"),res=$("#res");
+  const run=()=>{const w=norm(q.value.trim());
+    const r=w?EPS.map((e,k)=>[e,k+1]).filter(([e])=>norm(e[0]+" "+e[2]).includes(w)):[];
+    res.innerHTML=!w?`<p class="meta">Digite para buscar entre os 12 episódios.</p>`:r.length?r.map(([e,i])=>`<a class="ep" href="#assistir-${i}"><div class="n">${i}</div>${thumb(i,S.prog[i])}<div><h3>${e[0]}<span class="meta">${e[1]} min</span></h3><p>${e[2]}</p></div></a>`).join(""):`<p class="meta">Nenhum episódio encontrado.</p>`};
+  q.oninput=run;run();q.focus();
+}
+const eff=()=>document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+const thb=$("#th"),paint=()=>{thb.textContent=eff()==="dark"?"☀":"☾"};
+thb.onclick=()=>{const n=eff()==="dark"?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("sbr-theme",n)}catch(e){}paint()};paint();
+let dp;const inst=$("#inst");
+addEventListener("beforeinstallprompt",ev=>{ev.preventDefault();dp=ev;inst.hidden=false});
+inst.onclick=async ev=>{ev.preventDefault();if(!dp)return;dp.prompt();try{await dp.userChoice}catch(e){}dp=null;inst.hidden=true};
+addEventListener("appinstalled",()=>{inst.hidden=true});
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+addEventListener("hashchange",route);route();
+</script>
+</body>
+</html>
