@@ -99,6 +99,10 @@ h2{font-size:1.5rem;margin-bottom:14px;color:var(--gold)}
 .btns button{background:rgba(241,228,198,.15);padding:6px 14px;border-radius:3px;font-family:Oswald,sans-serif}
 .btns button:hover{background:rgba(241,228,198,.3)}
 .btns time{margin-left:auto;font:.9rem Oswald,sans-serif}
+.fsb{position:absolute;top:10px;right:10px;z-index:6;width:38px;height:38px;border-radius:4px;background:rgba(0,0,0,.62);color:#f1e4c6;font-size:1.2rem}
+.fsb:hover{background:rgba(0,0,0,.85)}
+.player:fullscreen,.player.fs{max-height:none;aspect-ratio:auto;width:100%;height:100%}
+.player.fs{position:fixed;inset:0;z-index:100}
 .note{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.6);padding:3px 10px;font:.78rem Oswald,sans-serif;border-radius:3px}
 footer{padding:30px 4vw;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);margin-top:40px}
 @media(max-width:600px){.ep{grid-template-columns:100px 1fr}.ep .n{display:none}header{gap:10px}.logo small{display:none}}
@@ -146,7 +150,7 @@ const FOTOS={1:"https://drive.google.com/file/d/1qzXUgxSwKTJD1ImyiaXVnRXs7aMTRL9
 const dbx=u=>{try{const x=new URL(u);if(/(^|\.)dropbox\.com$/.test(x.hostname)){x.searchParams.delete("dl");x.searchParams.set("raw","1")}return x.toString()}catch(e){return u}};
 const img=u=>{if(!u)return"";u=dbx(u.trim());const m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)||(/drive\.google/.test(u)&&u.match(/[?&]id=([\w-]+)/));return m?`https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`:u};
 const frame=s=>`<iframe src="${s}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-const embed=u=>{u=dbx(u.trim());let m;if(m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/))return frame(`https://drive.google.com/file/d/${m[1]}/preview`);if(m=u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/))return frame(`https://www.youtube.com/embed/${m[1]}`);return `<video src="${u}"${Date.now()<autoUntil?" autoplay":""} controls playsinline preload="auto"></video>`};
+const embed=u=>{u=dbx(u.trim());let m;if(m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/))return frame(`https://drive.google.com/file/d/${m[1]}/preview`);if(m=u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/))return frame(`https://www.youtube.com/embed/${m[1]}`);return `<video src="${u}"${Date.now()<autoUntil?" autoplay":""} controls controlsList="nofullscreen" playsinline preload="auto"></video>`};
 const $=s=>document.querySelector(s),app=$("#app");
 let S={list:[1],prog:{},last:{}};
 try{const x=JSON.parse(localStorage.getItem("sbr")||"null");if(x)S=x}catch(e){}S.last=S.last||{};S.prog=S.prog||{};
@@ -204,6 +208,7 @@ function lista(){app.innerHTML=`<section><h2>Minha lista</h2>`+(S.list.length?`<
 
 let timer,autoUntil=0;
 function watch(i){
+  const AVISO=95;
   const e=EPS[i-1],dur=+e[1]*60;let t=Math.floor((S.prog[i]||0)*dur),play=false;
   const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
   app.innerHTML=`<div class="player">${scene}<span class="note">Demonstração: sem vídeo real</span><div class="ctrl"><div class="bar" id="bar"><i id="fill"></i></div><div class="btns">
@@ -215,13 +220,25 @@ function watch(i){
   $("#pp").onclick=()=>{if(play)return stop();play=true;$("#pp").textContent="❚❚ Pausar";timer=setInterval(()=>{t=Math.min(dur,t+5);draw();if(t>=dur)stop()},1000)};
   $("#bk").onclick=()=>{t=Math.max(0,t-10);draw()};$("#fw").onclick=()=>{t=Math.min(dur,t+10);draw()};
   $("#bar").onclick=ev=>{const r=ev.currentTarget.getBoundingClientRect();t=Math.floor((ev.clientX-r.left)/r.width*dur);draw()};
-  if(VIDEOS[i]){$(".player").innerHTML=embed(VIDEOS[i]);const v=$(".player video");if(v){const p=S.prog[i]||0;v.addEventListener("loadedmetadata",()=>{if(p>.01&&p<.97)v.currentTime=p*v.duration});let lt=0;v.addEventListener("timeupdate",()=>{if(v.duration&&Date.now()-lt>3000){lt=Date.now();S.prog[i]=v.currentTime/v.duration;S.last[i]=Date.now();save()}});v.addEventListener("ended",()=>{S.prog[i]=1;save()});
+  if(VIDEOS[i]){$(".player").innerHTML=embed(VIDEOS[i]);const pl=$(".player"),fsb=document.createElement("button");
+fsb.className="fsb";fsb.textContent="⛶";fsb.setAttribute("aria-label","Tela cheia");
+pl.appendChild(fsb);
+fsb.onclick=()=>{
+  if(document.fullscreenElement||pl.classList.contains("fs")){
+    pl.classList.remove("fs");
+    if(document.fullscreenElement)document.exitFullscreen();
+  }else if(pl.requestFullscreen){
+    pl.requestFullscreen().catch(()=>pl.classList.add("fs"));
+  }else{
+    pl.classList.add("fs"); // fallback (ex.: iPhone)
+  }
+};const v=$(".player video");if(v){const p=S.prog[i]||0;v.addEventListener("loadedmetadata",()=>{if(p>.01&&p<.97)v.currentTime=p*v.duration});let lt=0;v.addEventListener("timeupdate",()=>{if(v.duration&&Date.now()-lt>3000){lt=Date.now();S.prog[i]=v.currentTime/v.duration;S.last[i]=Date.now();save()}});v.addEventListener("ended",()=>{S.prog[i]=1;save()});
     let cancel=false;const go=()=>{autoUntil=Date.now()+4000;location.hash="assistir-"+(i+1)};
     if(i<12&&VIDEOS[i+1]){const ov=document.createElement("div");ov.className="nx";ov.hidden=true;
       ov.innerHTML=`<div class="nxc"><small>Próximo episódio em <b id="cd"></b> s</small><strong>Ep. ${i+1} · ${EPS[i][0]}</strong><button id="nn">▶ Assistir agora</button><button id="nc">✕ Cancelar</button></div>`;
       $(".player").appendChild(ov);
       ov.querySelector("#nn").onclick=go;ov.querySelector("#nc").onclick=()=>{cancel=true;ov.hidden=true};
-      v.addEventListener("timeupdate",()=>{const r=v.duration-v.currentTime;ov.hidden=cancel||!(r<=10&&r>0);if(!ov.hidden)ov.querySelector("#cd").textContent=Math.ceil(r)});
+      v.addEventListener("timeupdate",()=>{const r=v.duration-v.currentTime;ov.hidden=cancel||!(r<=AVISO&&r>0);if(!ov.hidden)ov.querySelector("#cd").textContent=Math.ceil(r)});
       v.addEventListener("ended",()=>{if(!cancel)go()})}
   }}else draw();
   const mk=$("#mk"),um=()=>mk.textContent=S.prog[i]>=.97?"↺ Desmarcar como assistido":"✓ Marcar como assistido";um();
