@@ -66,13 +66,14 @@ h2{font-size:1.5rem;margin-bottom:14px;color:var(--gold)}
 .q{width:100%;padding:12px 14px;margin-bottom:14px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:3px;font:1rem "Libre Baskerville",Georgia,serif}
 .mk{background:var(--surface);color:var(--text);border:1px solid var(--line);margin-top:6px}
 .mk:hover{border-color:var(--gold)}
-.nx{position:absolute;inset:0;z-index:5;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 16px 64px;background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.72));pointer-events:none}
+.nx{position:absolute;inset:0;z-index:5;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 16px 64px;pointer-events:none}
 .nx[hidden]{display:none}
-.nxc{pointer-events:auto;max-width:300px}
+.nxc{pointer-events:auto;max-width:300px;background:rgba(0,0,0,.72);padding:12px 14px;border-radius:4px;border:1px solid #e0a93a}
 .nxc small{display:block;font:.9rem Oswald,sans-serif}
 .nxc strong{display:block;margin:4px 0 10px;font:1.05rem Rye,Georgia,serif;color:#e0a93a;font-weight:400}
 .nxc button{padding:8px 14px;margin:0 8px 6px 0;border-radius:3px;font-family:Oswald,sans-serif;background:#e0a93a;color:#1a120c}
 .nxc button+button{background:rgba(241,228,198,.2);color:#f1e4c6}
+#nn{background:linear-gradient(90deg,#fff3c4 var(--p,0%),#e0a93a var(--p,0%))}
 .menu button:hover{background:var(--bg)}
 .poster{flex:0 0 min(170px,44vw);text-align:center}
 .poster .th{aspect-ratio:3/4;font-size:2.8rem}
@@ -208,7 +209,8 @@ function lista(){app.innerHTML=`<section><h2>Minha lista</h2>`+(S.list.length?`<
 
 let timer,autoUntil=0;
 function watch(i){
-  const AVISO=95;
+  const AVISO=95;     // segundos antes do fim em que o aviso aparece (início dos créditos)
+  const CONTAGEM=10;  // segundos de contagem antes de pular sozinho para o próximo
   const e=EPS[i-1],dur=+e[1]*60;let t=Math.floor((S.prog[i]||0)*dur),play=false;
   const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
   app.innerHTML=`<div class="player">${scene}<span class="note">Demonstração: sem vídeo real</span><div class="ctrl"><div class="bar" id="bar"><i id="fill"></i></div><div class="btns">
@@ -232,14 +234,28 @@ fsb.onclick=()=>{
   }else{
     pl.classList.add("fs"); // fallback (ex.: iPhone)
   }
-};const v=$(".player video");if(v){const p=S.prog[i]||0;v.addEventListener("loadedmetadata",()=>{if(p>.01&&p<.97)v.currentTime=p*v.duration});let lt=0;v.addEventListener("timeupdate",()=>{if(v.duration&&Date.now()-lt>3000){lt=Date.now();S.prog[i]=v.currentTime/v.duration;S.last[i]=Date.now();save()}});v.addEventListener("ended",()=>{S.prog[i]=1;save()});
-    let cancel=false;const go=()=>{autoUntil=Date.now()+4000;location.hash="assistir-"+(i+1)};
+};const v=$(".player video");if(v){const p=S.prog[i]||0;v.addEventListener("loadedmetadata",()=>{if(p>.01&&p<.97)v.currentTime=p*v.duration});let lt=0;v.addEventListener("timeupdate",()=>{if(v.duration&&Date.now()-lt>3000){lt=Date.now();S.prog[i]=v.currentTime/v.duration;S.last[i]=Date.now();save()}});
+    let cancel=false,gone=false,t0=null;
+    const go=()=>{if(gone)return;gone=true;autoUntil=Date.now()+4000;location.hash="assistir-"+(i+1)};
     if(i<12&&VIDEOS[i+1]){const ov=document.createElement("div");ov.className="nx";ov.hidden=true;
       ov.innerHTML=`<div class="nxc"><small>Próximo episódio em <b id="cd"></b> s</small><strong>Ep. ${i+1} · ${EPS[i][0]}</strong><button id="nn">▶ Assistir agora</button><button id="nc">✕ Cancelar</button></div>`;
       $(".player").appendChild(ov);
-      ov.querySelector("#nn").onclick=go;ov.querySelector("#nc").onclick=()=>{cancel=true;ov.hidden=true};
-      v.addEventListener("timeupdate",()=>{const r=v.duration-v.currentTime;ov.hidden=cancel||!(r<=AVISO&&r>0);if(!ov.hidden)ov.querySelector("#cd").textContent=Math.ceil(r)});
-      v.addEventListener("ended",()=>{if(!cancel)go()})}
+      ov.querySelector("#nn").onclick=go;
+      ov.querySelector("#nc").onclick=()=>{cancel=true;ov.hidden=true};
+      v.addEventListener("timeupdate",()=>{
+        const r=v.duration-v.currentTime;
+        if(r>AVISO)cancel=false; // voltou antes dos créditos: reativa o aviso
+        const dentro=!cancel&&r<=AVISO&&r>0;
+        ov.hidden=!dentro;
+        if(!dentro){t0=null;return}
+        if(t0===null||v.currentTime<t0)t0=v.currentTime;
+        const resta=Math.max(0,CONTAGEM-(v.currentTime-t0));
+        ov.querySelector("#cd").textContent=Math.ceil(resta);
+        ov.style.setProperty("--p",(1-resta/CONTAGEM)*100+"%");
+        if(resta<=0)go();
+      });
+    }
+    v.addEventListener("ended",()=>{S.prog[i]=1;save();if(!cancel&&i<12&&VIDEOS[i+1])go()});
   }}else draw();
   const mk=$("#mk"),um=()=>mk.textContent=S.prog[i]>=.97?"↺ Desmarcar como assistido":"✓ Marcar como assistido";um();
   mk.onclick=()=>{if(S.prog[i]>=.97)delete S.prog[i];else S.prog[i]=1;S.last[i]=Date.now();save();um()};
