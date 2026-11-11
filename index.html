@@ -74,7 +74,22 @@ h2{font-size:1.5rem;margin-bottom:14px;color:var(--gold)}
 .nxc button{padding:8px 14px;margin:0 8px 6px 0;border-radius:3px;font-family:Oswald,sans-serif;background:#e0a93a;color:#1a120c}
 .nxc button+button{background:rgba(241,228,198,.2);color:#f1e4c6}
 #nn{background:linear-gradient(90deg,#fff3c4 var(--p,0%),#e0a93a var(--p,0%))}
+.fsb{position:absolute;top:10px;right:10px;z-index:6;width:38px;height:38px;border-radius:4px;background:rgba(0,0,0,.62);color:#f1e4c6;font-size:1.2rem}
+.fsb:hover{background:rgba(0,0,0,.85)}
+.player:fullscreen,.player.fs{max-height:none;aspect-ratio:auto;width:100%;height:100%}
+.player.fs{position:fixed;inset:0;z-index:100}
 .menu button:hover{background:var(--bg)}
+.bv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;background:#1a120c}
+.bg{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,18,12,.94) 0,rgba(26,18,12,.35) 55%,rgba(26,18,12,.55) 100%)}
+.wrap.qz{max-width:640px}
+.opt{display:block;width:100%;text-align:left;margin:10px 0;padding:14px 16px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:4px;font:1rem "Libre Baskerville",Georgia,serif}
+.opt:hover:not(:disabled){border-color:var(--gold)}.opt:disabled{cursor:default}
+.opt.ok{background:#2f6b36;color:#fff;border-color:#2f6b36}.opt.no{background:var(--red);color:#fff;border-color:var(--red)}
+.bar2{height:6px;background:var(--line);border-radius:3px;margin:8px 0 18px}.bar2 i{display:block;height:100%;background:var(--red);border-radius:3px}
+.big{font:3rem Rye,Georgia,serif;color:var(--gold);margin:8px 0}
+.lock{opacity:.5;filter:grayscale(1)}.ach:not(.lock){border-left-color:var(--gold)}
+.stt h3{font:1.8rem Rye,Georgia,serif;color:var(--gold)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:#1a120c;color:#e0a93a;border:1px solid #e0a93a;padding:10px 18px;border-radius:4px;font:1rem Oswald,sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.5);max-width:90vw;text-align:center}
 .poster{flex:0 0 min(170px,44vw);text-align:center}
 .poster .th{aspect-ratio:3/4;font-size:2.8rem}
 .wrap{max-width:980px;margin:0 auto}
@@ -100,10 +115,6 @@ h2{font-size:1.5rem;margin-bottom:14px;color:var(--gold)}
 .btns button{background:rgba(241,228,198,.15);padding:6px 14px;border-radius:3px;font-family:Oswald,sans-serif}
 .btns button:hover{background:rgba(241,228,198,.3)}
 .btns time{margin-left:auto;font:.9rem Oswald,sans-serif}
-.fsb{position:absolute;top:10px;right:10px;z-index:6;width:38px;height:38px;border-radius:4px;background:rgba(0,0,0,.62);color:#f1e4c6;font-size:1.2rem}
-.fsb:hover{background:rgba(0,0,0,.85)}
-.player:fullscreen,.player.fs{max-height:none;aspect-ratio:auto;width:100%;height:100%}
-.player.fs{position:fixed;inset:0;z-index:100}
 .note{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.6);padding:3px 10px;font:.78rem Oswald,sans-serif;border-radius:3px}
 footer{padding:30px 4vw;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);margin-top:40px}
 @media(max-width:600px){.ep{grid-template-columns:100px 1fr}.ep .n{display:none}header{gap:10px}.logo small{display:none}}
@@ -119,6 +130,8 @@ footer{padding:30px 4vw;color:var(--muted);font-size:.8rem;border-top:1px solid 
     <a href="#elenco" data-r="elenco">Personagens</a>
     <a href="#lista" data-r="lista">Minha lista</a>
     <a href="#busca" data-r="busca">Buscar</a>
+    <a href="#quiz" data-r="quiz">Quiz</a>
+    <a href="#perfil" data-r="perfil">Conquistas</a>
     <a href="#" id="inst" hidden>Instalar app</a>
   </nav>
   <button id="th" class="tgl" aria-label="Alternar tema claro e escuro"></button>
@@ -147,6 +160,9 @@ const CAST=[
 
 const VIDEOS={1:"https://www.dropbox.com/scl/fi/qhyigwvl1fqzb9nxmbbwi/01sd.mp4?rlkey=gt7r5710ogrx29qk70jhrpz0i&st=2ipdeh7p&dl=0",2:"https://www.dropbox.com/scl/fi/oslyf8v54sw10dqt351m8/sbr2.mp4?rlkey=t93xahxpu7otq2e90suovj6pb&st=s82oipd1&dl=0",3:"https://www.dropbox.com/scl/fi/qhfudc4eeehelp1cx76g9/sbr3.mp4?rlkey=56g8ioryfamq797e3n8nl83vb&st=gob7btxx&dl=0",4:"https://www.dropbox.com/scl/fi/puvihwb9embkuzyu7oowe/sbr4.mp4?rlkey=qkiahk8np2nlmcdf8lx0j3400&st=kif3bxxc&dl=0",5:"https://www.dropbox.com/scl/fi/xmxhit9ibvkphw8w2q88g/sbr5.mp4?rlkey=hypskoar4q1x8uzz8jvcuzhjb&st=qdf9pmdr&dl=0",6:"https://www.dropbox.com/scl/fi/u56gyynuzebd7967kbouq/lv_0_20261029213912.mp4?rlkey=hsqttgrwluba0811ow0hp5jv0&st=3pfay5z5&dl=0",7:"https://www.dropbox.com/scl/fi/ioyu8ena3g7bsorolw0f0/sbr7.mp4?rlkey=0yva3lo8rjub9ieh2xd46emxy&st=46vadqim&dl=0",8:"https://www.dropbox.com/scl/fi/nstk2jxrkt1hnltkpetb4/sbr8.mp4?rlkey=sfs3s3q9obqccmp28eek27eia&st=9yyy69zs&dl=0",9:"",10:"",11:"",12:""};
 const FOTOS={1:"https://drive.google.com/file/d/1qzXUgxSwKTJD1ImyiaXVnRXs7aMTRL9l/view?usp=drivesdk",2:"https://drive.google.com/file/d/1zOnBxqwaM3_bkb6xLFXg1547rHvu-bhJ/view?usp=drivesdk",3:"https://drive.google.com/file/d/18okurrPyVwwv_87kKVmk3p6H02iY7zos/view?usp=drivesdk",4:"https://drive.google.com/file/d/1CYXYcgCwXslIJL4vrEP-0uLTlck1WpEq/view?usp=drivesdk",5:"https://drive.google.com/file/d/1VToFAIs7i7bN34VRUBf8KRTsKRQb6w-v/view?usp=drivesdk",6:"https://drive.google.com/file/d/1q3uSscgo-XTeG2cHg4BgSarevr3S0mDV/view?usp=drivesdk",7:"https://drive.google.com/file/d/1CZRAiBh1Miib_Xws2wcnmXj3vJEFOuU_/view?usp=drivesdk",8:"",9:"",10:"",11:"",12:""};
+// BANNER: vídeo curto (10 a 20 s, sem som) que toca em loop no topo. Use links diretos (Dropbox ou .mp4).
+// pc = vídeo horizontal (16:9). mobile = vídeo vertical (opcional). Vazio = usa a ilustração padrão.
+const BANNER={pc:"",mobile:""};
 // ===== fim da área de links =====
 const dbx=u=>{try{const x=new URL(u);if(/(^|\.)dropbox\.com$/.test(x.hostname)){x.searchParams.delete("dl");x.searchParams.set("raw","1")}return x.toString()}catch(e){return u}};
 const img=u=>{if(!u)return"";u=dbx(u.trim());const m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)||(/drive\.google/.test(u)&&u.match(/[?&]id=([\w-]+)/));return m?`https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`:u};
@@ -154,12 +170,16 @@ const frame=s=>`<iframe src="${s}" allow="autoplay; fullscreen" allowfullscreen>
 const embed=u=>{u=dbx(u.trim());let m;if(m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/))return frame(`https://drive.google.com/file/d/${m[1]}/preview`);if(m=u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/))return frame(`https://www.youtube.com/embed/${m[1]}`);return `<video src="${u}"${Date.now()<autoUntil?" autoplay":""} controls controlsList="nofullscreen" playsinline preload="auto"></video>`};
 const $=s=>document.querySelector(s),app=$("#app");
 let S={list:[1],prog:{},last:{}};
-try{const x=JSON.parse(localStorage.getItem("sbr")||"null");if(x)S=x}catch(e){}S.last=S.last||{};S.prog=S.prog||{};
-const save=()=>{try{localStorage.setItem("sbr",JSON.stringify(S))}catch(e){}};
+try{const x=JSON.parse(localStorage.getItem("sbr")||"null");if(x)S=x}catch(e){}S.last=S.last||{};S.prog=S.prog||{};S.done=S.done||{};
+const save=()=>{try{localStorage.setItem("sbr",JSON.stringify(S))}catch(e){}checkAch()};
 const resume=()=>{const l=Object.keys(S.prog).map(Number).filter(k=>EPS[k-1]&&S.prog[k]>.01).sort((a,b)=>(S.last[b]||0)-(S.last[a]||0));
   if(!l.length)return[1,"▶ Assistir ep. 1"];const k=l[0];
   if(S.prog[k]<.97)return[k,`▶ Continuar ep. ${k}`];
   return k<12?[k+1,`▶ Assistir ep. ${k+1}`]:[1,"▶ Assistir de novo"]};
+const isDone=k=>!!S.done[k]||S.prog[k]>=.97;
+const bannerVid=()=>{const m=matchMedia("(max-width:700px)").matches,u=(m&&BANNER.mobile)||BANNER.pc;
+  if(!u||matchMedia("(prefers-reduced-motion:reduce)").matches||(navigator.connection&&navigator.connection.saveData))return"";
+  return `<video class="bv" src="${dbx(u.trim())}" autoplay muted loop playsinline preload="auto"></video><i class="bg"></i>`};
 const hue=i=>(i*37+10)%360;
 const thumb=(i,pg)=>{const f=img(FOTOS[i]);return `<div class="th${f?" ph":""}" style="--h:${hue(i)}${f?`;background:center/cover url('${f}')`:""}">${f?"":i}${pg>=.97?`<span class="seen">✓ Assistido</span>`:pg?`<i class="pg" style="width:${pg*100}%"></i>`:""}</div>`};
 const epCard=i=>{const e=EPS[i-1];return `<a class="card" href="#assistir-${i}">${thumb(i,S.prog[i])}<div class="cb"><b>${e[0]}</b><span>Episódio ${i} · ${e[1]} min</span></div></a>`};
@@ -167,7 +187,7 @@ const scene=`<svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" ari
 
 function home(){
   const c=EPS.map((_,i)=>i+1);
-  app.innerHTML=`<div class="hero">${scene}<div class="in">
+  app.innerHTML=`<div class="hero">${scene}${bannerVid()}<div class="in">
     <span class="tag">Aventura</span><span class="tag">Western</span><span class="tag">16+</span>
     <h1>Steel Ball Run</h1>
     <p>Em 1890, a maior corrida de cavalos do mundo cruza os Estados Unidos de costa a costa. Johnny Joestar, paralítico, entra na prova atrás de um milagre.</p>
@@ -177,7 +197,7 @@ function home(){
   <section><h2>Todos os episódios</h2><div class="row">${c.map(epCard).join("")}</div></section>
   <section><h2>Os corredores</h2><div class="row">${CAST.map(castCard).join("")}</div></section>`;
   app.querySelectorAll(".dots").forEach(b=>b.onclick=ev=>{ev.stopPropagation();const m=b.nextElementSibling,was=m.hidden;closeMenus();m.hidden=!was});
-  app.querySelectorAll("[data-mk]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();S.prog[b.dataset.mk]=1;S.last[b.dataset.mk]=Date.now();save();home()});
+  app.querySelectorAll("[data-mk]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();S.prog[b.dataset.mk]=1;S.done[b.dataset.mk]=1;S.last[b.dataset.mk]=Date.now();save();home()});
   app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=ev=>{ev.stopPropagation();delete S.prog[b.dataset.rm];delete S.last[b.dataset.rm];save();home()});
 }
 const closeMenus=()=>document.querySelectorAll(".menu").forEach(m=>m.hidden=true);
@@ -186,7 +206,7 @@ const castCard=p=>`<div class="card poster"><div class="th" style="--h:${p[3]}">
 
 let tab=1;
 function anime(){
-  app.innerHTML=`<div class="hero" style="min-height:52vh">${scene}<div class="in"><span class="tag">2026</span><span class="tag">12 episódios</span><span class="tag">Legendado</span>
+  app.innerHTML=`<div class="hero" style="min-height:52vh">${scene}${bannerVid()}<div class="in"><span class="tag">2026</span><span class="tag">12 episódios</span><span class="tag">Legendado</span>
     <h1>Steel Ball Run</h1><p>Uma corrida de 6.000 km, um prêmio de 50 milhões de dólares e uma esfera de aço que gira com a força de uma lenda.</p>
     <a class="btn b1" href="#assistir-${resume()[0]}">${resume()[1]}</a><button class="btn b2" id="ml"></button></div></div>
   <section><div class="wrap"><div class="tabs" id="tabs"></div><div id="eps"></div></div></section>
@@ -223,20 +243,22 @@ function watch(i){
   $("#bk").onclick=()=>{t=Math.max(0,t-10);draw()};$("#fw").onclick=()=>{t=Math.min(dur,t+10);draw()};
   $("#bar").onclick=ev=>{const r=ev.currentTarget.getBoundingClientRect();t=Math.floor((ev.clientX-r.left)/r.width*dur);draw()};
   if(VIDEOS[i]){$(".player").innerHTML=embed(VIDEOS[i]);const pl=$(".player"),fsb=document.createElement("button");
-fsb.className="fsb";fsb.textContent="⛶";fsb.setAttribute("aria-label","Tela cheia");
-pl.appendChild(fsb);
-fsb.onclick=()=>{
-  if(document.fullscreenElement||pl.classList.contains("fs")){
-    pl.classList.remove("fs");
-    if(document.fullscreenElement)document.exitFullscreen();
-  }else if(pl.requestFullscreen){
-    pl.requestFullscreen().catch(()=>pl.classList.add("fs"));
-  }else{
-    pl.classList.add("fs"); // fallback (ex.: iPhone)
-  }
-};const v=$(".player video");if(v){const p=S.prog[i]||0;v.addEventListener("loadedmetadata",()=>{if(p>.01&&p<.97)v.currentTime=p*v.duration});let lt=0;v.addEventListener("timeupdate",()=>{if(v.duration&&Date.now()-lt>3000){lt=Date.now();S.prog[i]=v.currentTime/v.duration;S.last[i]=Date.now();save()}});
+    fsb.className="fsb";fsb.textContent="⛶";fsb.setAttribute("aria-label","Tela cheia");
+    pl.appendChild(fsb);
+    fsb.onclick=()=>{
+      if(document.fullscreenElement||pl.classList.contains("fs")){
+        pl.classList.remove("fs");
+        if(document.fullscreenElement)document.exitFullscreen();
+      }else if(pl.requestFullscreen){
+        pl.requestFullscreen().catch(()=>pl.classList.add("fs"));
+      }else{
+        pl.classList.add("fs"); // alternativa (ex.: iPhone)
+      }
+    };
+    const v=$(".player video");if(v){const p=S.prog[i]||0;v.addEventListener("loadedmetadata",()=>{if(p>.01&&p<.97)v.currentTime=p*v.duration});let lt=0;v.addEventListener("timeupdate",()=>{if(v.duration&&Date.now()-lt>3000){lt=Date.now();S.prog[i]=v.currentTime/v.duration;S.last[i]=Date.now();save()}});
+    let pt=0;v.addEventListener("timeupdate",()=>{const d=v.currentTime-pt;if(d>0&&d<2)S.sec=(S.sec||0)+d;pt=v.currentTime});
     let cancel=false,gone=false,t0=null;
-    const go=()=>{if(gone)return;gone=true;autoUntil=Date.now()+4000;location.hash="assistir-"+(i+1)};
+    const go=()=>{if(gone)return;gone=true;S.prog[i]=1;S.done[i]=1;S.last[i]=Date.now();save();autoUntil=Date.now()+4000;location.hash="assistir-"+(i+1)};
     if(i<12&&VIDEOS[i+1]){const ov=document.createElement("div");ov.className="nx";ov.hidden=true;
       ov.innerHTML=`<div class="nxc"><small>Próximo episódio em <b id="cd"></b> s</small><strong>Ep. ${i+1} · ${EPS[i][0]}</strong><button id="nn">▶ Assistir agora</button><button id="nc">✕ Cancelar</button></div>`;
       $(".player").appendChild(ov);
@@ -255,17 +277,75 @@ fsb.onclick=()=>{
         if(resta<=0)go();
       });
     }
-    v.addEventListener("ended",()=>{S.prog[i]=1;save();if(!cancel&&i<12&&VIDEOS[i+1])go()});
+    v.addEventListener("ended",()=>{S.prog[i]=1;S.done[i]=1;save();if(!cancel&&i<12&&VIDEOS[i+1])go()});
   }}else draw();
-  const mk=$("#mk"),um=()=>mk.textContent=S.prog[i]>=.97?"↺ Desmarcar como assistido":"✓ Marcar como assistido";um();
-  mk.onclick=()=>{if(S.prog[i]>=.97)delete S.prog[i];else S.prog[i]=1;S.last[i]=Date.now();save();um()};
+  const mk=$("#mk"),um=()=>mk.textContent=isDone(i)?"↺ Desmarcar como assistido":"✓ Marcar como assistido";um();
+  mk.onclick=()=>{if(isDone(i)){delete S.prog[i];delete S.done[i]}else{S.prog[i]=1;S.done[i]=1}S.last[i]=Date.now();save();um()};
 }
 function route(){
   clearInterval(timer);
   const h=location.hash.slice(1)||"inicio",m=h.match(/^assistir-(\d+)$/);
-  if(m&&EPS[m[1]-1])watch(+m[1]);else({anime,elenco,lista,busca}[h]||home)();
+  if(m&&EPS[m[1]-1])watch(+m[1]);else({anime,elenco,lista,busca,quiz,perfil}[h]||home)();
   document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.r===(m?"anime":h)||(!m&&h==="inicio"&&a.dataset.r==="inicio")));
   scrollTo(0,0);
+  document.querySelectorAll(".bv").forEach(v=>{v.muted=true;try{const r=v.play();if(r&&r.catch)r.catch(()=>{})}catch(e){}});
+}
+const QZ=[
+["Em que ano começa a corrida Steel Ball Run?",["1890","1912","1865","1945"],0],
+["De qual cidade parte a corrida?",["Nova York","San Diego","Chicago","Denver"],1],
+["Qual é o prêmio máximo da corrida?",["10 milhões de dólares","50 milhões de dólares","1 milhão de dólares","100 milhões de dólares"],1],
+["Qual protagonista perdeu o movimento das pernas?",["Gyro Zeppeli","Diego Brando","Johnny Joestar","Mountain Tim"],2],
+["Quem ensina a técnica da rotação a Johnny?",["Gyro Zeppeli","Funny Valentine","Diego Brando","Wekapipo"],0],
+["Qual é o nome do Stand de Johnny?",["Scary Monsters","Tusk","Star Platinum","The World"],1],
+["Qual é o nome do cavalo de Johnny?",["Silver Bullet","Slow Dancer","Valkyrie","Black Beauty"],1],
+["Quem é o presidente dos Estados Unidos na história?",["Funny Valentine","Diego Brando","Sandman","Mountain Tim"],0],
+["A rotação dourada é ligada a qual proporção matemática?",["Teorema de Pitágoras","Proporção áurea","Número pi","Raiz de dois"],1],
+["Quem é o autor de Steel Ball Run?",["Eiichiro Oda","Hirohiko Araki","Masashi Kishimoto","Akira Toriyama"],1]];
+function quiz(){
+  let i=0,sc=0;
+  const rank=n=>n===10?"Lenda da Steel Ball Run":n>=8?"Mestre da rotação":n>=5?"Corredor veterano":"Aprendiz de jóquei";
+  const show=()=>{
+    if(i>=QZ.length){S.quiz=S.quiz||{best:0};S.quiz.best=Math.max(S.quiz.best,sc);save();
+      app.innerHTML=`<section><div class="wrap qz"><h2>Resultado</h2><p class="big">${sc} / ${QZ.length}</p><p><b>${rank(sc)}</b></p><p class="meta">Seu melhor resultado: ${S.quiz.best} / ${QZ.length}</p><button class="btn b1" id="again">↻ Jogar de novo</button><a class="btn mk" href="#perfil">Ver conquistas</a></div></section>`;
+      $("#again").onclick=()=>{i=0;sc=0;show()};return}
+    const [q,o,c]=QZ[i],best=(S.quiz&&S.quiz.best)||0;
+    app.innerHTML=`<section><div class="wrap qz"><p class="meta">Pergunta ${i+1} de ${QZ.length} · Melhor: ${best}</p><div class="bar2"><i style="width:${i/QZ.length*100}%"></i></div><h2>${q}</h2>${o.map((x,k)=>`<button class="opt" data-k="${k}">${x}</button>`).join("")}<div id="fb"></div></div></section>`;
+    app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const k=+b.dataset.k;
+      app.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(+x.dataset.k===c)x.classList.add("ok")});
+      if(k===c)sc++;else b.classList.add("no");
+      $("#fb").innerHTML=`<button class="btn b1" id="nq">${i<QZ.length-1?"Próxima ▸":"Ver resultado"}</button>`;$("#nq").onclick=()=>{i++;show()}});
+  };show();
+}
+const doneCount=()=>EPS.filter((_,k)=>isDone(k+1)).length;
+const stagesDone=()=>[0,1,2,3].filter(s=>[1,2,3].every(j=>isDone(s*3+j))).length;
+const stageOk=s=>[1,2,3].every(j=>isDone(s*3+j));
+const best=()=>(S.quiz&&S.quiz.best)||0;
+const ACH=[
+ ["start","🐎","Na largada","Comece a assistir um episódio.",()=>(S.sec||0)>10||doneCount()>0||Object.keys(S.prog).length>0],
+ ["ep1","🏁","Primeiro quilômetro","Termine o episódio 1.",()=>isDone(1)],
+ ["st1","🌊","Etapa 1 completa","Termine os episódios 1 a 3.",()=>stageOk(0)],
+ ["st2","🏜️","Etapa 2 completa","Termine os episódios 4 a 6.",()=>stageOk(1)],
+ ["st3","⛰️","Etapa 3 completa","Termine os episódios 7 a 9.",()=>stageOk(2)],
+ ["st4","🗽","Etapa 4 completa","Termine os episódios 10 a 12.",()=>stageOk(3)],
+ ["half","🌗","Meio caminho","Termine 6 episódios.",()=>doneCount()>=6],
+ ["all","🏆","Linha de chegada","Termine os 12 episódios.",()=>doneCount()>=12],
+ ["hour","⏱️","Uma hora na estrada","Assista 1 hora no total.",()=>(S.sec||0)>=3600],
+ ["q8","🌀","Mestre da rotação","Acerte 8 ou mais no quiz.",()=>best()>=8],
+ ["q10","💛","Perfeição dourada","Acerte as 10 perguntas do quiz.",()=>best()>=10],
+ ["app","📲","App instalado","Abra o site como app instalado.",()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true]];
+function toast(m){const d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3400)}
+function checkAch(){
+  if(!S.ach)return;
+  const cur=ACH.filter(a=>a[4]()).map(a=>a[0]),nw=cur.filter(x=>!S.ach.includes(x));
+  if(!nw.length)return;
+  S.ach=S.ach.concat(nw);try{localStorage.setItem("sbr",JSON.stringify(S))}catch(e){}
+  nw.forEach((id,n)=>{const a=ACH.find(x=>x[0]===id);setTimeout(()=>toast("🏆 Conquista: "+a[2]),n*3600)});
+}
+function perfil(){
+  const s=Math.floor(S.sec||0),got=ACH.filter(a=>a[4]()).length,box=(v,l)=>`<div class="box stt"><h3>${v}</h3><p>${l}</p></div>`;
+  app.innerHTML=`<section><div class="wrap"><h2>Conquistas</h2><div class="grid2">${box(doneCount()+" / 12","episódios concluídos")}${box(Math.floor(s/3600)+"h "+Math.floor(s%3600/60)+"min","tempo assistido")}${box(stagesDone()+" / 4","etapas completas")}${box(best()+" / "+QZ.length,"melhor no quiz")}</div>
+  <p class="meta" style="margin:20px 0 10px">${got} de ${ACH.length} conquistas</p>
+  <div class="grid2">${ACH.map(a=>{const ok=a[4]();return `<div class="box ach${ok?"":" lock"}"><h3>${ok?a[1]:"🔒"} ${a[2]}</h3><p>${a[3]}</p></div>`}).join("")}</div></div></section>`;
 }
 function busca(){
   app.innerHTML=`<section><div class="wrap"><h2>Buscar</h2><input id="q" class="q" type="search" placeholder="Nome do episódio ou palavra da sinopse" autocomplete="off"><div id="res"></div></div></section>`;
@@ -283,6 +363,7 @@ addEventListener("beforeinstallprompt",ev=>{ev.preventDefault();dp=ev;inst.hidde
 inst.onclick=async ev=>{ev.preventDefault();if(!dp)return;dp.prompt();try{await dp.userChoice}catch(e){}dp=null;inst.hidden=true};
 addEventListener("appinstalled",()=>{inst.hidden=true});
 if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+S.ach=S.ach||ACH.filter(a=>a[4]()).map(a=>a[0]);
 addEventListener("hashchange",route);route();
 </script>
 </body>
