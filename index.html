@@ -162,7 +162,7 @@ const VIDEOS={1:"https://www.dropbox.com/scl/fi/qhyigwvl1fqzb9nxmbbwi/01sd.mp4?r
 const FOTOS={1:"https://drive.google.com/file/d/1qzXUgxSwKTJD1ImyiaXVnRXs7aMTRL9l/view?usp=drivesdk",2:"https://drive.google.com/file/d/1zOnBxqwaM3_bkb6xLFXg1547rHvu-bhJ/view?usp=drivesdk",3:"https://drive.google.com/file/d/18okurrPyVwwv_87kKVmk3p6H02iY7zos/view?usp=drivesdk",4:"https://drive.google.com/file/d/1CYXYcgCwXslIJL4vrEP-0uLTlck1WpEq/view?usp=drivesdk",5:"https://drive.google.com/file/d/1VToFAIs7i7bN34VRUBf8KRTsKRQb6w-v/view?usp=drivesdk",6:"https://drive.google.com/file/d/1q3uSscgo-XTeG2cHg4BgSarevr3S0mDV/view?usp=drivesdk",7:"https://drive.google.com/file/d/1CZRAiBh1Miib_Xws2wcnmXj3vJEFOuU_/view?usp=drivesdk",8:"",9:"",10:"",11:"",12:""};
 // BANNER: vídeo curto (10 a 20 s, sem som) que toca em loop no topo. Use links diretos (Dropbox ou .mp4).
 // pc = vídeo horizontal (16:9). mobile = vídeo vertical (opcional). Vazio = usa a ilustração padrão.
-const BANNER={pc:"",mobile:""};
+const BANNER={pc:"https://www.dropbox.com/scl/fi/p83lkk3rdoamk03i8rb1b/STEEL-BALL-RUN-JoJo_s-Bizarre-Adventure-_-Trailer-oficial-_-Netflix-1080P_HD.mp4?rlkey=1ow2i1rhrh22pddmoxtd5vm4u&st=3l6odhkm&dl=0",mobile:""};
 // ===== fim da área de links =====
 const dbx=u=>{try{const x=new URL(u);if(/(^|\.)dropbox\.com$/.test(x.hostname)){x.searchParams.delete("dl");x.searchParams.set("raw","1")}return x.toString()}catch(e){return u}};
 const img=u=>{if(!u)return"";u=dbx(u.trim());const m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)||(/drive\.google/.test(u)&&u.match(/[?&]id=([\w-]+)/));return m?`https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`:u};
