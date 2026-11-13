@@ -119,6 +119,27 @@ h2{font-size:1.5rem;margin-bottom:14px;color:var(--gold)}
 footer{padding:30px 4vw;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);margin-top:40px}
 @media(max-width:600px){.ep{grid-template-columns:100px 1fr}.ep .n{display:none}header{gap:10px}.logo small{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Aviso de episódio novo (estilo telegrama) */
+.tel{position:relative;display:flex;align-items:center;gap:14px;padding:12px 4vw;background:repeating-linear-gradient(135deg,#2a1c12 0 14px,#241810 14px 28px);color:#f1e4c6;border-bottom:2px dashed #e0a93a}
+.tel[hidden]{display:none}
+.tel .ic{font:1.3rem Rye,serif;color:#d1412b;border:2px solid #d1412b;padding:2px 8px;transform:rotate(-4deg);white-space:nowrap}
+.tel .tx{flex:1;min-width:0;font:.95rem/1.35 Oswald,sans-serif;letter-spacing:.03em}
+.tel .tx b{display:block;font:1.05rem Rye,Georgia,serif;font-weight:400;color:#e0a93a;letter-spacing:0}
+.tel a.go{flex:0 0 auto;padding:8px 16px;background:#e0a93a;color:#1a120c;border-radius:3px;font:600 .95rem Oswald,sans-serif}
+.tel a.go:hover{background:#f2bd52}
+.tel .x{flex:0 0 auto;background:none;color:#f1e4c6;opacity:.7;font-size:1.3rem;padding:4px 8px}
+.tel .x:hover{opacity:1}
+@media(max-width:600px){.tel{flex-wrap:wrap;gap:8px 12px}.tel .tx{flex-basis:60%}.tel .go{order:3}}
+/* Botão discreto do trailer no banner */
+.trl{position:absolute;top:14px;right:4vw;z-index:6;display:inline-flex;align-items:center;gap:8px;padding:7px 14px;background:rgba(0,0,0,.6);color:#f1e4c6;border:1px solid #e0a93a;border-radius:20px;font:.9rem Oswald,sans-serif;letter-spacing:.04em;backdrop-filter:blur(4px)}
+.trl:hover{background:rgba(0,0,0,.85)}
+.mdl{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.7)}
+.mdl[hidden]{display:none}
+.mdl .bx{max-width:340px;background:#1a120c;color:#f1e4c6;border:2px solid #e0a93a;border-radius:4px;padding:22px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.mdl h3{font:1.4rem Rye,serif;color:#e0a93a;margin-bottom:8px}
+.mdl p{margin:0 0 16px;font-size:.92rem}
+.mdl .btn{cursor:pointer;margin:0 4px 6px}
 </style>
 </head>
 <body>
@@ -149,7 +170,7 @@ const EPS=[
 ["O Destino de Gyro Zeppeli","25","Gyro e Johnny finalmente encontram o cavalo zumbi que pode ser usado para curar a perna de Gyro. A origem misteriosa de Gyro Zeppeli e o motivo de sua participação na corrida são revelados. Nos dias atuais, uma nova surpresa aguarda a dupla."],
 ["Tusk","25","Gyro e Johnny são atacados por um inimigo misterioso que não pode ser visto e que parece responder diretamente ao Presidente dos Estados Unidos."],
 ["Tusk - Parte 2","26","Johnny desperta um novo estágio de seu poder (Tusk) ao compreender a verdade oculta por trás da corrida e a lenda das partes do “Cadáver Santo” (Holy Corpse). Impulsionado por uma nova determinação, ele usa sua habilidade para salvar Gyro, enquanto o Presidente Funny Valentine avança em seus próprios objetivos."],
-["Ordem de Washington","23","Agentes do governo entram na corrida com um objetivo que não é o prêmio."],
+["Monstros Assustadores - Parte 1","23","Agentes do governo entram na corrida com um objetivo que não é o prêmio."],
 ["Tempestade na Pradaria","24","Uma tempestade obriga os corredores a escolher entre atalho e segurança."],
 ["Corpo Sagrado","24","O verdadeiro motivo da corrida começa a ser revelado aos poucos."],
 ["A Última Curva","25","A reta final em Nova York decide quem leva o título e quem paga com o futuro."]];
@@ -366,5 +387,43 @@ if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWork
 S.ach=S.ach||ACH.filter(a=>a[4]()).map(a=>a[0]);
 addEventListener("hashchange",route);route();
 </script>
+<script>
+// ===== CONFIGURE AQUI =====
+const TRAILER_URL="COLE_AQUI_O_LINK_DO_TRAILER_COMPLETO"; // enquanto não for um link http, o botão do trailer não aparece
+const NOVO_EP={data:"2026-11-13",ep:9,hora:""};            // data = dia em que o aviso aparece; hora ex.: "20h" (opcional)
+// ==========================
+(function(){
+  const d=new Date(),hoje=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  const chave="sbr-aviso-"+NOVO_EP.data+"-"+NOVO_EP.ep;
+  let fechado=false;try{fechado=!!localStorage.getItem(chave)}catch(e){}
+  let t=null;
+  if(hoje===NOVO_EP.data&&!fechado&&EPS[NOVO_EP.ep-1]){
+    t=document.createElement("div");t.className="tel";
+    const no_ar=!!(typeof VIDEOS!=="undefined"&&VIDEOS[NOVO_EP.ep]);
+    t.innerHTML=`<span class="ic">TELEGRAMA</span>
+      <div class="tx"><b>${no_ar?`Episódio ${NOVO_EP.ep} já está no ar!`:`Episódio ${NOVO_EP.ep} chega hoje!`}</b>Sexta-feira 13 · “${EPS[NOVO_EP.ep-1][0]}”${!no_ar&&NOVO_EP.hora?" · "+NOVO_EP.hora:""}</div>
+      ${no_ar?`<a class="go" href="#assistir-${NOVO_EP.ep}">Assistir agora</a>`:""}
+      <button class="x" aria-label="Fechar aviso">×</button>`;
+    document.querySelector("header").after(t);
+    t.querySelector(".x").onclick=()=>{t.hidden=true;try{localStorage.setItem(chave,"1")}catch(e){}};
+    const vis=()=>{if(t&&!t.dataset.off)t.hidden=/^#assistir/.test(location.hash)};
+    t.querySelector(".x").addEventListener("click",()=>t.dataset.off="1");
+    addEventListener("hashchange",vis);vis();
+  }
+  if(!/^https?:/.test(TRAILER_URL))return;
+  const m=document.createElement("div");m.className="mdl";m.hidden=true;
+  m.innerHTML=`<div class="bx"><h3>Trailer completo</h3><p>Quer ver o trailer completo, com áudio? Ele abre em uma nova aba.</p>
+    <a class="btn b1" id="mgo" target="_blank" rel="noopener">▶ Assistir</a><button class="btn b2" id="mno">Agora não</button></div>`;
+  document.body.appendChild(m);
+  const go=m.querySelector("#mgo");go.href=TRAILER_URL;
+  const fecha=()=>m.hidden=true;
+  m.querySelector("#mno").onclick=fecha;go.addEventListener("click",fecha);
+  m.addEventListener("click",e=>{if(e.target===m)fecha()});
+  const add=()=>{const h=app.querySelector(".hero");
+    if(h&&!h.querySelector(".trl")&&h.querySelector(".bv")){
+      const b=document.createElement("button");b.className="trl";b.textContent="▶ Trailer completo";
+      b.onclick=()=>m.hidden=false;h.appendChild(b)}};
+  new MutationObserver(add).observe(app,{childList:true,subtree:true});add();
+})();
+</script>
 </body>
-</html>
