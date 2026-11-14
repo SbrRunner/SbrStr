@@ -389,8 +389,8 @@ addEventListener("hashchange",route);route();
 </script>
 <script>
 // ===== CONFIGURE AQUI =====
-const TRAILER_URL="https://youtu.be/wQFSXfxtsVo?si=R6cj34xB-LajAMcr"; // enquanto não for um link http, o botão do trailer não aparece
-const NOVO_EP={data:"2026-11-14",ep:10,hora:""};            // data = dia em que o aviso aparece; hora ex.: "20h" (opcional)
+const TRAILER_URL="https://youtu.be/wQFSXfxtsVo?si=R6cj34xB-LajAMcr";
+const NOVO_EP={data:"2026-11-14",ep:10,hora:""}; // data = dia em que o aviso aparece; hora ex.: "20h" (opcional)
 // ==========================
 (function(){
   const d=new Date(),hoje=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -398,10 +398,14 @@ const NOVO_EP={data:"2026-11-14",ep:10,hora:""};            // data = dia em que
   let fechado=false;try{fechado=!!localStorage.getItem(chave)}catch(e){}
   let t=null;
   if(hoje===NOVO_EP.data&&!fechado&&EPS[NOVO_EP.ep-1]){
+    const dd=new Date(NOVO_EP.data+"T12:00:00");
+    const DIAS=["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+    const MESES=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+    const quando=`${DIAS[dd.getDay()]}, ${dd.getDate()} de ${MESES[dd.getMonth()]}`;
     t=document.createElement("div");t.className="tel";
     const no_ar=!!(typeof VIDEOS!=="undefined"&&VIDEOS[NOVO_EP.ep]);
     t.innerHTML=`<span class="ic">TELEGRAMA</span>
-      <div class="tx"><b>${no_ar?`Episódio ${NOVO_EP.ep} já está no ar!`:`Episódio ${NOVO_EP.ep} chega hoje!`}</b>Sexta-feira ${hoje.getDate()} · “${EPS[NOVO_EP.ep-1][0]}”${!no_ar&&NOVO_EP.hora?" · "+NOVO_EP.hora:""}</div>
+      <div class="tx"><b>${no_ar?`Episódio ${NOVO_EP.ep} já está no ar!`:`Episódio ${NOVO_EP.ep} chega hoje!`}</b>${quando} · “${EPS[NOVO_EP.ep-1][0]}”${!no_ar&&NOVO_EP.hora?" · "+NOVO_EP.hora:""}</div>
       ${no_ar?`<a class="go" href="#assistir-${NOVO_EP.ep}">Assistir agora</a>`:""}
       <button class="x" aria-label="Fechar aviso">×</button>`;
     document.querySelector("header").after(t);
